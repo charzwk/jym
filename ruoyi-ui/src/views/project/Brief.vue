@@ -2,49 +2,32 @@
     <div class="contain">
         <!-- header -->
         <div class="header">
-            <el-button style="color: white;background-color: #2468f2;"
-                @click="dialogvisbel = true; form = {}">新增</el-button>
+            <el-button style="color: white;background-color: #2468f2;" @click="dialogvisbel = true">新增</el-button>
             <div class="serachModel">
-                <div class="topinput" >
-                    <span>搜索：</span>
-                    <el-input placeholder="请输入内容" v-model="input1">
-                        <template #suffix>
-                            <i class="el-icon-search" @click="handleSearch(suffix)"></i> <!-- 点击图标执行搜索 -->
-                        </template>
-                    </el-input>
-                </div>
+                <div> <el-input placeholder="请输入内容" suffix-icon="el-icon-search" v-model="input1">
+                    </el-input></div>
             </div>
         </div>
-        <div>
-    <!-- <el-upload
-      ref="upload"
-      class="upload-demo"
-      :before-upload="beforeUpload"
-      :auto-upload="false"
-      :on-change="handleChange"
-      :http-request="uploadFile"
-    >
-      <el-button type="primary">选择 Excel 文件</el-button>
-    </el-upload>
-    <el-button type="success" @click="submitUpload" :disabled="!file">上传文件</el-button> -->
-  </div>
         <!-- table -->
         <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="name" label="项目名称">
             </el-table-column>
-            <el-table-column prop="target" label="项目目标">
+            <el-table-column prop="code" label="任务编号">
             </el-table-column>
-            <el-table-column prop="decompose" label="研究内容分解">
+            <el-table-column prop="phone" label="负责人电话">
             </el-table-column>
-            <el-table-column prop="demand" label="设备需求">
+            <el-table-column prop="joinphone" label="参与人电话">
             </el-table-column>
-
-            <el-table-column prop="id" label="操作" width="220">
-                <template slot-scope="scope" style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
-
+            <el-table-column prop="precost" label="经费预算">
+            </el-table-column>
+            <el-table-column prop="target" label="目标">
+            </el-table-column>
+          
+            <el-table-column prop="name" label="操作" width="220px">
+                <template slot-scope="scope" style="display: grid;grid-template-columns: repeat(3,1fr);">
                     <el-button @click="toDetail" size="mini">查看</el-button>
-                    <el-button @click="edit(scope.row)" type="primary" size="mini">编辑</el-button>
-                    <el-button @click="deleteRow2(scope.row)" type="danger" size="mini">删除</el-button>
+                    <el-button @click="dialogvisbel = true" type="primary" size="mini">编辑</el-button>
+                    <el-button @click="deleteRow(scope.row)" type="danger" size="mini">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -54,116 +37,82 @@
         </el-pagination>
 
         <!-- 弹框 -->
-        <el-dialog :visible.sync="dialogvisbel" width="70%">
+        <el-dialog  :visible.sync="dialogvisbel" width="80%">
 
-            <el-form ref="form" :model="form" label-width="100px" style="margin: 0 15px;padding: 0;">
+            <el-form ref="form" :model="form" label-width="100px">
                 <!-- 第一步 项目信息 -->
                 <div v-if="false">
-                    <div>
-                        <el-form-item label="项目名称">
-                            <el-input v-model="form.info11" type="text" :rows="4" placeholder="请输入项目名称"></el-input>
-                        </el-form-item>
-                        <el-form-item label="专项">
-                            <el-select v-model="zxinfo" placeholder="请选择是否专项">
-                                <el-option v-for="item in isZx" :label="item.zx" :value="item.zx"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="项目目标">
-                            <el-input v-model="form.info1" type="textarea" :rows="4" placeholder="请输入项目目标"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="研究内容分解">
-                            <el-input v-model="form.info2" type="textarea" :rows="4" placeholder="请输入调研内容"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="设备需求">
-                            <el-input v-model="form.info2" type="textarea" :rows="4" placeholder="请输入设备需求"></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="人员配置">
-                            <el-button type="primary">新增人员</el-button>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column prop="name" label="姓名">
-                                </el-table-column>
-                                <el-table-column prop="target" label="角色">
-                                </el-table-column>
-                                <el-table-column prop="target" label="备注">
-                                </el-table-column>
-                                <el-table-column prop="name" label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button @click="dialogvisbel = true" type="primary">编辑</el-button>
-                                        <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button>
-                                    </template>
-                                </el-table-column>
-
-                            </el-table>
-                        </el-form-item>
-
-                        <el-form-item label="设备清单">
-                            <el-button type="primary">新增设备</el-button>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column prop="name" label="设备名称">
-                                </el-table-column>
-                                <el-table-column prop="target" label="花费">
-                                </el-table-column>
-                                <el-table-column prop="target" label="备注">
-                                </el-table-column>
-                                <el-table-column prop="name" label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button @click="dialogvisbel = true" type="primary">编辑</el-button>
-                                        <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button>
-                                    </template>
-                                </el-table-column>
-
-                            </el-table>
-                        </el-form-item>
-
-                        <el-form-item label="投入费用计划">
-                            <el-button type="primary">新增</el-button>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column prop="name" label="费用姓项">
-                                </el-table-column>
-                                <el-table-column prop="target" label="费用金额">
-                                </el-table-column>
-                                <el-table-column prop="target" label="备注">
-                                </el-table-column>
-                                <el-table-column prop="name" label="操作" width="220">
-                                    <template slot-scope="scope"
-                                        style="display: grid;grid-template-columns: repeat(3,1fr);">
-                                        <el-button @click="toDetail" size="mini">查看</el-button>
-                                        <el-button @click="dialogvisbel = true" type="primary"
-                                            size="mini">编辑</el-button>
-                                        <el-button @click="deleteRow(scope.row)" type="danger"
-                                            size="mini">删除</el-button>
-                                    </template>
-                                </el-table-column>
-
-                            </el-table>
-                        </el-form-item>
-                    </div>
-                    <el-form-item>
-                        <div class="form-buttons">
-                            <el-button type="primary" @click="onSubmit">保存</el-button>
-                            <el-button @click="dialogvisbel = false">取消</el-button>
-                        </div>
+                 
+                    <el-form-item label="报告标题">
+                        <el-input v-model="form.info11" type="text" :rows="4" placeholder="请输入报告标题"></el-input>
                     </el-form-item>
+
+                    <el-form-item label="简介">
+                        <el-input v-model="form.info1" type="textarea" :rows="4" placeholder="请输入简介"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="结论">
+                        <el-input v-model="form.info2" type="textarea" :rows="4" placeholder="请输入调研内容"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="建议">
+                        <el-input v-model="form.info3" type="textarea" :rows="4" placeholder="请输入市场需求分析"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="创建时间">
+                        <el-date-picker v-model="dateRange" type="date"  placeholder="请选择时间"
+                             style="width: 400px;">
+                        </el-date-picker>
+                    </el-form-item>
+
+                    <el-form-item label="创建人">
+                        <el-input v-model="form.info5" type="textarea" :rows="4" placeholder="请输入调研结论"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="状态">
+                        <el-select v-model="personSelect2">
+                            <el-option v-for="item in personlist" :label="item.name" :value="item.id">进行中</el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <!-- <el-form-item label="附件上传">
+                        <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
+                            :limit="3" :on-exceed="handleExceed" :file-list="[]">
+                            <div class="filelist">
+                                <div class="file" v-for="item in fileList">
+                                    <div style="color: #2468f2;">{{ item.name }}</div>
+                                    <div style="color: #2468f2;justify-self: end;" @click="toDetail(item.url)">编辑</div>
+                                </div>
+                            </div>
+                            <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="请选择上传人">
+                        <el-select v-model="personSelect">
+                            <el-option v-for="item in personlist" :label="item.name" :value="item.id">{{ item.name
+                                }}</el-option>
+                        </el-select>
+                    </el-form-item> -->
+
                 </div>
 
-                <!-- newlayout -->
-                <div class="mydialogInfo">
+                      <!-- newlayout -->
+                      <div class="mydialogInfo" v-else>
                     <div class="closedilog" @click="dialogvisbel = false;">
                         <img src="@/imgs/closedialog.png" alt="">
                     </div>
                     <div class="br">
                         <div class="dialogheader">
                             <div class="bgmask"></div>
-                            <div style="padding: 10px;">项目申报</div>
+                            <div style="padding: 10px;">新增任务书</div>
                         </div>
                     </div>
 
                     <div class="infoDetail">
                         <div class="dialoginfo">
-                            <div class="dtitle">项目基础情况
+                            <div class="dtitle">任务书信息
                                 <div class="close"><img src="@/imgs/close.png" alt=""></div>
                             </div>
                         </div>
@@ -172,16 +121,28 @@
                             <!-- 第一列 -->
                             <el-row :gutter="10">
                                 <el-col :span="12">
-                                    <div>
-                                        <div class="ddname">项目名称</div>
-                                        <div><el-input v-model="form.name" placeholder="请输入项目名称"></el-input></div>
+                                    <!-- -->
+
+                                    <el-row :gutter="10">
+                                        <el-col :span='12'>
+                                            <div>
+                                        <div class="ddname">关联项目</div>
+                                        <div><el-input v-model="form.name" placeholder="请选择项目"></el-input></div>
                                     </div>
+                                        </el-col>
+                                        <el-col :span='12'>
+                                            <div>
+                                        <div class="ddname">任务书标题</div>
+                                        <div><el-input v-model="form.name" placeholder="请输入任务书标题"></el-input></div>
+                                    </div>
+                                        </el-col>
+                                    </el-row>
                                 </el-col>
                                 <el-col :span="12">
                                     <el-row :gutter="10">
                                         <el-col :span="12">
                                             <div>
-                                                <div class="ddname">项目负责人</div>
+                                                <div class="ddname">负责人</div>
                                                 <div>
                                                     <el-select v-model="form.person" placeholder="请选择负责人">
                                                         <el-option v-for="item in personlist" :label="item.name"
@@ -211,7 +172,7 @@
                                 <el-col :span="12">
                                     <el-row :gutter="10">
                                         <el-col :span="12">
-                                            <div class="ddname">选择开始日期时间</div>
+                                            <div class="ddname">开始日期时间</div>
                                             <div class="block">
                                                 <el-date-picker v-model="form.tiem1" type="datetime"
                                                     placeholder="选择开始日期时间">
@@ -219,10 +180,10 @@
                                             </div>
                                         </el-col>
                                         <el-col :span="12">
-                                            <div class="ddname">选择开始日期时间</div>
+                                            <div class="ddname">结束日期时间</div>
                                             <div class="block">
                                                 <el-date-picker v-model="form.tiem2" type="datetime"
-                                                    placeholder="选择开始日期时间">
+                                                    placeholder="选择结束日期时间">
                                                 </el-date-picker>
                                             </div>
                                         </el-col>
@@ -250,26 +211,26 @@
                             </el-row>
 
                             <div class="pd10">
-                                <div class="ddname">项目目的</div>
-                                <div class="mark">分析项目的背景和目的</div>
+                                <div class="ddname">简介</div>
+                                <div class="mark">请描述任务书简介</div>
                                 <el-input v-model="form.target" type="textarea" :rows="5"></el-input>
                             </div>
 
                             <div class="pd10">
-                                <div class="ddname">研究内容分解</div>
-                                <div class="mark">分析项目的背景和目的</div>
+                                <div class="ddname">结论</div>
+                                <div class="mark">请描述任务书简介</div>
                                 <el-input v-model="form.decompose" type="textarea" :rows="5"></el-input>
                             </div>
 
                             <div class="pd10">
-                                <div class="ddname">设备需求</div>
-                                <div class="mark">分析项目的背景和目的</div>
+                                <div class="ddname">建议</div>
+                                <div class="mark">请描述任务书简介</div>
                                 <el-input v-model="form.demand" type="textarea" :rows="5"></el-input>
                             </div>
 
                             <!-- 人员-->
                             <div class="pd10">
-                                <div class="ddname">人员配置</div>
+                                <div class="ddname">投入人员</div>
                                 <div class="mark">所有人员信息</div>
                                 <div class="pbb">
                                     <el-button type="primary" @click="addRow"
@@ -430,9 +391,6 @@
 
                 </div>
 
-
-
-
             </el-form>
 
 
@@ -451,25 +409,6 @@ export default {
         return {
             currentStep: 2,//当前步骤 
             showPopover: false,//编辑信息卡片
-            zxinfo: '',
-            typelist: [
-                {
-                    "id": 1,
-                    "name": "软件开发"
-                },
-                {
-                    "id": 2,
-                    "name": "市场营销"
-                },
-                {
-                    "id": 3,
-                    "name": "产品设计"
-                }
-            ],
-            isZx: [
-                { id: 1, zx: '是' },
-                { id: 1, zx: '否' },
-            ],
             queryParams: {},
             input1: '',
             personlist: [
@@ -477,15 +416,12 @@ export default {
                 { id: 2, name: '里斯' },
                 { id: 3, name: '王五' },
             ],
-            list3: [
-                { id: 1, name: '水费', role: '5000', remark: '暂无备注' }
-            ],
             personSelect: '',
             personSelect2: '进行中',
             dateRange: '',
             dialogvisbel: false,
             tableData: [
-                { id: 1, name: '基哥项目调研报告', target: 'xxxxx', decompose: '1,xxxxxx,2xxxx,3xxx', demand: '内存必须大于32' }
+                { name: '预期市场行情', code: '02902982', phone: '1092xxxxx', joinphone: '172xxxxx', precost: '20002', target: 'xxxx'}
             ],
             form: {
                 name: '',
@@ -502,72 +438,13 @@ export default {
                 { id: 2, name: '模板A' },
                 { id: 3, name: '模板C' },
             ],
-            file: null, // 存储当前选择的文件
             selectedValue: null,
             fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
-            { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
+             { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
 
         }
     },
     methods: {
-   // 在上传前进行文件格式校验
-   beforeUpload(file) {
-      const isExcel = file.type === 'application/vnd.ms-excel' ||
-                      file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      if (!isExcel) {
-        this.$message.error('只允许上传Excel文件！');
-      }
-      return isExcel;
-    },
-    // 当文件选择变化时触发
-    handleChange(file) {
-      this.file = file.raw; // 更新文件
-    },
-    // 手动触发上传
-    submitUpload() {
-      if (!this.file) {
-        this.$message.error('请先选择文件！');
-        return;
-      }
-      this.$refs.upload.submit();
-    },
-    // 自定义上传方法
-    uploadFile({ file }) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      return fetch('http://192.168.3.155:8080/api/excel/upload', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('文件上传失败！');
-          }
-          return response.json();
-        })
-        .then(result => {
-          console.log("文件上传成功：", result);
-          this.$message.success('文件上传成功！');
-        })
-        .catch(error => {
-          console.error("上传出错：", error);
-          this.$message.error('文件上传失败！');
-        });
-    },
-        saveinfo() {
-            console.log('form', this.form);
-            var id = 2;
-            this.form.id = id;
-            this.tableData.unshift(this.form);
-            id++;
-            this.dialogvisbel = false;
-
-        },
-        handleSearch(row) {
-            console.log(row);
-
-        },
         onSubmit() { },
         handleRemove(file, fileList) {
             console.log(file, fileList);
@@ -581,38 +458,11 @@ export default {
         beforeRemove(file, fileList) {
             return this.$confirm(`确定移除 ${file.name}？`);
         },
-        toDetail(url) {
-            window.open(url, '_blank')
+        toDetail(url){
+            window.open(url,'_blank')
         },
-        toDetail() {
-            this.$router.push('/project/projectDetail')
-        },
-        addRow() {
-            this.list3.push({
-                name: '',
-                role: '',
-                department: '',
-                remark: '',
-            });
-        },
-
-        // 删除选中的行
-        deleteRow(index) {
-            index = index - 1;
-            this.list3.splice(index, 1);
-        },
-        deleteRow2(index) {
-            index = index - 1;
-            if (confirm('确定删除吗')) {
-                this.tableData.splice(index, 1);
-            }
-
-        },
-        edit(row) {
-            console.log(row.id);
-            var index = this.tableData.findIndex(item => item.id == row.id);
-            this.form = this.tableData[index];
-            this.dialogvisbel = true;
+        toDetail(){
+            this.$router.push('/project/brifDetail')
         }
     }
 }
@@ -635,8 +485,7 @@ export default {
     }
 
 }
-
-.file {
+.file{
     display: grid;
     grid-template-columns: 1fr 1fr;
 }

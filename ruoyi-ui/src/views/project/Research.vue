@@ -24,12 +24,12 @@
             </el-table-column>
             <el-table-column prop="res" label="调研结论">
             </el-table-column>
-            <el-table-column prop="name" label="操作">
-                <template slot-scope="scope">
+            <el-table-column prop="name" label="操作" width="220">
+                <template slot-scope="scope" style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
 
-                    <el-button @click="toDetail">查看</el-button>
-                    <el-button @click="dialogvisbel = true" type="primary">编辑</el-button>
-                    <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button>
+                    <el-button @click="toDetail" size="mini">查看</el-button>
+                    <el-button @click="dialogvisbel = true" type="primary" size="mini">编辑</el-button>
+                    <el-button @click="deleteRow(scope.row)" type="danger" size="mini">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -40,11 +40,11 @@
 
         <!-- 弹框 -->
         <!-- 弹框 -->
-        <el-dialog title="新增调研" :visible.sync="dialogvisbel" width="50%">
+        <el-dialog :visible.sync="dialogvisbel" width="80%">
 
             <el-form ref="form" :model="form" label-width="100px">
                 <!-- 第一步 项目信息 -->
-                <div>
+                <div v-if="false">
                     <el-form-item label="调研时间">
                         <el-date-picker v-model="dateRange" type="daterange" start-placeholder="开始日期"
                             end-placeholder="结束日期" style="width: 400px;">
@@ -104,13 +104,204 @@
                 </div>
 
 
-                <el-form-item>
-                    <div class="form-buttons">
-                        <el-button type="primary" @click="onSubmit">保存</el-button>
-                        <el-button type="success" @click="onSubmit">审批</el-button>
-                        <el-button @click="dialogvisbel = false">取消</el-button>
+                <!-- newlayout -->
+                <div class="mydialogInfo" v-else>
+                    <div class="closedilog" @click="dialogvisbel = false;">
+                        <img src="@/imgs/closedialog.png" alt="">
                     </div>
-                </el-form-item>
+                    <div class="br">
+                        <div class="dialogheader">
+                            <div class="bgmask"></div>
+                            <div style="padding: 10px;">新增调研</div>
+                        </div>
+                    </div>
+
+                    <div class="infoDetail">
+                        <div class="dialoginfo">
+                            <div class="dtitle">调研信息
+                                <div class="close"><img src="@/imgs/close.png" alt=""></div>
+                            </div>
+                        </div>
+
+                        <div class="ddetail">
+                            <!-- 第一列 -->
+                            <el-row :gutter="10">
+                                <el-col :span="12">
+                                    <div>
+                                        <div class="ddname">项目名称</div>
+                                        <div>
+                                            <el-select v-model="form.person" placeholder="请选择调研项目">
+                                                <el-option v-for="item in personlist" :label="item.name"
+                                                    :value="item.id"></el-option>
+                                            </el-select>
+                                        </div>
+                                    </div>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-row :gutter="10">
+                                        <el-col :span="12">
+                                            <div>
+                                                <div class="ddname">调研发起人</div>
+                                                <div>
+                                                    <el-select v-model="form.person" placeholder="请选择调研发起人">
+                                                        <el-option v-for="item in personlist" :label="item.name"
+                                                            :value="item.id"></el-option>
+                                                    </el-select>
+                                                </div>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div>
+                                                <div class="ddname">所属部门</div>
+                                                <div>
+                                                    <el-select v-model="form.dep" placeholder="请选择部门">
+                                                        <el-option v-for="item in personlist" :label="item.name"
+                                                            :value="item.id"></el-option>
+                                                    </el-select>
+                                                </div>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+
+                                </el-col>
+
+                            </el-row>
+                            <!-- 第二列 -->
+                            <el-row :gutter="10" style="margin: 20px 0 ;">
+                                <el-col :span="12">
+                                    <el-row :gutter="10">
+                                        <el-col :span="12">
+                                            <div class="ddname">开始调研时间</div>
+                                            <div class="block">
+                                                <el-date-picker v-model="form.tiem1" type="datetime"
+                                                    placeholder="开始调研时间">
+                                                </el-date-picker>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="ddname">结束调研时间</div>
+                                            <div class="block">
+                                                <el-date-picker v-model="form.tiem2" type="datetime"
+                                                    placeholder="结束调研时间">
+                                                </el-date-picker>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-row :gutter="10">
+                                        <el-col :span="12">
+                                            <div class="ddname">项目类型</div>
+                                            <el-select v-model="form.typename" placeholder="请选择项目类型">
+                                                <el-option v-for="item in typelist" :label="item.name"
+                                                    :value="item.id"></el-option>
+                                            </el-select>
+                                        </el-col>
+
+                                        <el-col :span="12">
+                                            <div class="ddname">状态</div>
+                                            <el-select v-model="form.iszx" placeholder="请选择当前状态">
+                                                <el-option v-for="item in typelist" :label="item.name"
+                                                    :value="item.id"></el-option>
+                                            </el-select>
+                                        </el-col>
+                                    </el-row>
+                                </el-col>
+                            </el-row>
+
+
+
+
+                            <div>
+                                <div class="pd10">
+                                    <div class="ddname">调研说明</div>
+                                    <div class="mark">调研说明的细节和内容</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入调研说明"></el-input>
+                                </div>
+
+                                <div class="pd10">
+                                    <div class="ddname">调研目标</div>
+                                    <div class="mark">调研目标的细节和内容</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入调研目标"></el-input>
+                                </div>
+
+                                <div class="pd10">
+                                    <div class="ddname">调研内容</div>
+                                    <div class="mark">调研目标的细节和内容</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入调研内容"></el-input>
+                                </div>
+
+
+                                <div class="pd10">
+                                    <div class="ddname">市场需求分析</div>
+                                    <div class="mark">市场需求分析描述</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入市场需求分析"></el-input>
+                                </div>
+
+                                <div class="pd10">
+                                    <div class="ddname">竞争对手分析</div>
+                                    <div class="mark">竞争对手分析的描述</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入竞争对手分析"></el-input>
+                                </div>
+
+                                <div class="pd10">
+                                    <div class="ddname">调研结论</div>
+                                    <div class="mark">调研结论的总结</div>
+                                    <el-input v-model="form.target" type="textarea" :rows="5"
+                                        placeholder="请输入调研结论"></el-input>
+                                </div>
+                            </div>
+
+                            <el-row>
+                                <el-col>
+                                    <div class="ddname">附件上传</div>
+                                    <div class="mark">上传附件信息</div>
+                                    <el-upload class="upload-demo"
+                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                            :on-preview="handlePreview" :on-remove="handleRemove"
+                                            :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed"
+                                            :file-list="[]">
+                                            <div class="filelist">
+                                                <div class="file" v-for="item in fileList">
+                                                    <div style="color: #2468f2;">{{ item.name }}</div>
+                                                    <div style="color: #2468f2;justify-self: end;"
+                                                        @click="toDetail(item.url)">
+                                                        编辑</div>
+                                                </div>
+                                            </div>
+                                            <el-button size="small" type="primary">点击上传</el-button>
+                                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                                        </el-upload>
+                                </el-col>
+                            </el-row>
+
+
+
+
+
+
+                            <div class="savebtn">
+                                <el-button style="color: white;background-color: #fb9337;"
+                                    @click="saveinfo">保存</el-button>
+                                <el-button @click="dialogvisbel = false">取消</el-button>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
             </el-form>
 
 
@@ -160,8 +351,7 @@ export default {
                 { id: 3, name: '模板C' },
             ],
             selectedValue: null,
-            fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
-             { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
+            fileList: []
 
         }
     },
@@ -179,10 +369,10 @@ export default {
         beforeRemove(file, fileList) {
             return this.$confirm(`确定移除 ${file.name}？`);
         },
-        toDetail(url){
-            window.open(url,'_blank')
+        toDetail(url) {
+            window.open(url, '_blank')
         },
-        toDetail(){
+        toDetail() {
             this.$router.push('/project/researchDetail')
         }
     }
@@ -206,7 +396,8 @@ export default {
     }
 
 }
-.file{
+
+.file {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }

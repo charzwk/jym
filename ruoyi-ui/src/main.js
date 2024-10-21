@@ -39,6 +39,7 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 // 字体图标
 import '@fortawesome/fontawesome-free/css/all.css';
+import '@/css/public.css';
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
