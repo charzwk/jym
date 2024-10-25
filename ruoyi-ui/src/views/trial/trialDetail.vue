@@ -3,91 +3,204 @@
         <div class="box">
             <!-- 右侧 -->
             <div class="left">
-                <!-- 第一模块 -->
-                <div class="oneModel">
-                    <div class="newadd">
-                        <div> <h2>基本信息</h2></div>
-                        <div class="addbtn del" style="font-size: 20px;" @click="dialogvisbel4 = true" v-if="false">调研</div>
-                  
-                    </div>
-                 
-                    <div class="oneinfo">
-                        <div class="oneitem">试验名称：测试试验aaa</div>
-                        <div class="oneitem">任务阶段：
-                            <el-select v-model="form.info3" placeholder="请选择阶段">
-                            <el-option v-for="item in phaseslist" :label="item.name" :value="item.id"></el-option>
-                        </el-select>
-                        </div>
-                        <div class="oneitem">创建人：张三</div>
-                        <!-- <div class="oneitem">状态：<span style="color: #5b9106;">申请中</span></div> -->
-                    </div>
-                    <div class="oneinfo">
-                        <div class="oneitem">同步ERP时间：2024-20-12 12:00</div>
-                        <div class="oneitem">审ERP单号：006523252</div>
-                        <div class="oneitem">创建时间：2024-20-12 12:00</div>
-                    </div>
-                   
-                </div>
-                <!-- 第二模块 材料明细-->
-                <div class=" twoModel">
-                    <div class="newadd">
+                <!-- 第一栏 -->
+                <div class="one">
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
                         <div>
-                            <h2>材料信息</h2>
-                        </div>
-                        <div class="addbtn" @click="dialogvisbel = true"><el-button type="primary">新增</el-button>
-                            <el-button type="success">导入excel</el-button>
+                            <div>00013</div>
+                            <div class="col9">编号</div>
                         </div>
                     </div>
-                    <div class="personlist" v-for="item in cailiaoList">
-                        <div>材料名称： {{ item.name }}</div>
-                        <div>数量： {{ item.count }}</div>
-                        <div>单数： {{ item.unit }}</div>
-                        <div>单价： {{ item.price }}</div>
-                        <div>金额: {{ item.total }}</div>
-                        <div class="btns">
-                            <div class="preview"> <i class="fas fa-edit"></i>编辑</div>
-                            <div class="del"> <i class="fas fa-trash"></i>移除</div>
 
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>已通过</div>
+                            <div class="col9">状态</div>
                         </div>
+                    </div>
+
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>李xx</div>
+                            <div class="col9">申请人</div>
+                        </div>
+                    </div>
+
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>00013</div>
+                            <div class="col9">申请时间</div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- 标题 -->
+                <div class="dialoginfo" style="margin: 10px  0 ;">
+                    <div class="dtitle">项目基础情况
+                        <div class="close"><img src="@/imgs/close.png" alt=""></div>
                     </div>
                 </div>
-            
-             
+
+                <!-- 基础信息 -->
+                <el-row :gutter="10">
+                    <el-col :span="12">
+                        <div>
+                            <div class="ddname">试验名称</div>
+                            <div class="bge">优化搜索引擎性能</div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div>
+                                    <div class="ddname">项目负责人</div>
+                                    <div class="bge">李sir</div>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div>
+                                    <div class="ddname">负责人电话</div>
+                                    <div class="bge">192xxxxxxx</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                    </el-col>
+
+                </el-row>
+                <!-- 第二列 -->
+                <el-row :gutter="10" style="margin: 20px 0 ;">
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div class="ddname">审批人</div>
+                                <div class="block">
+                                    <div class="bge">张xx</div>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div class="ddname">审批人电话</div>
+                                <div class="block">
+                                    <div class="bge">123xxxxxx</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div class="ddname">项目类型</div>
+                                <div class="bge">测试类</div>
+                            </el-col>
+
+                            <el-col :span="12">
+                                <div class="ddname">是否专项</div>
+                                <div class="bge">是</div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+
+
+
+                <!-- 标题 -->
+                <div class="dialoginfo" style="margin: 10px  0 ;">
+                    <div class="dtitle">物料信息
+                        <div class="close"><img src="@/imgs/close.png" alt=""></div>
+                    </div>
+                </div>
+                <!-- 人员-->
+                <div class="pd10">
+                    <div class="ddname">物料信息</div>
+                    <div class="mark">试验所需要的物料概况信心</div>
+                    <el-table :data="tableData" style="width: 100%">
+                        <el-table-column type="index" label="序号">
+                        </el-table-column>
+                        <el-table-column prop="name" label="物料名称">
+                        </el-table-column>
+                        <el-table-column prop="role" label="物料费用">
+                        </el-table-column>
+                        <el-table-column prop="department" label="单位">
+                        </el-table-column>
+                        <el-table-column prop="note" label="备注">
+                        </el-table-column>
+                    </el-table>
+                </div>
+
+
+
+
+
+
+
             </div>
             <!-- 左侧 -->
-            <div class="right">
-                <div class="processinfo">
-                    <h2>流程信息</h2>
-                    <div class="proitem" v-for="item in processInfo">
-                        <div class="protitle">
-                            <div class="" style="font-size: 20px;">{{ item.title }}</div>
-                            <div class="state  ">{{ item.state }}</div>
-                            <!-- <div class=" state2" v-if="item.state == '审批中'">{{ item.state }}</div>
-                            <div class=" state3" v-if="item.state == '待领取'">{{ item.state }}</div>
-                            <div class=" state4" v-if="item.state == '进行中'">{{ item.state }}</div> -->
-                        </div>
-                        <!-- <div style="display: grid;grid-template-columns: 1fr auto;">
-                            <div class="" >{{ item.title }}</div>
-                            <div class="">{{ item.state }}</div>
-                        </div> -->
+            <div class="right" style="background-color: #f9fafc;">
 
-                        <!-- 下面 -->
-                        <div class="moreinfo">
-                            <div class="node">最终节点：{{ item.nodeName }}</div>
-                            <div class="initInfo">
-                                <span style="width: 20px;height: 20px;"><img
-                                        style="width: 20px;height: 20px;transform: translateY(4px);"
-                                        src="@/imgs/person.png" alt=""></span>
-                                发起人：{{ item.initiated }} &nbsp;&nbsp;{{ item.initiatedTime }}
+                <div class="process">
+                    <div class="processitem">
+                        <div class="mark">2023-9-27 09:22</div>
+                        <div class="processinfo">
+                            <div class="proheader">申请人</div>
+                            <div class="probody">
+                                <div class="proname"> <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/person.png" alt=""></span> sir发起新的</div>
+                                <div class="pronnum">
+                                    <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/repare.png" alt=""></span>
+
+                                    18
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="processitem">
+                        <div class="mark">2023-9-27 09:22</div>
+                        <div class="processinfo">
+                            <div class="proheader">审批和流程</div>
+                            <div class="probody">
+                                <div class="proname success"> <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/person.png" alt=""></span> sir发起新的</div>
+                                <div class="pronnum">
+                                    <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/repare.png" alt=""></span>
+                                    18
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="processitem">
+                        <div class="mark">2023-9-27 09:22</div>
+                        <div class="processinfo">
+                            <div class="proheader">抄送项目申请结果</div>
+                            <div class="probody">
+                                <div class="proname"> <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/person.png" alt=""></span> 抄送项目1名成员</div>
+                                <div class="pronnum">
+                                    <span style="width: 15px;height: 15px;"><img
+                                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                                            src="@/imgs/repare.png" alt=""></span>
+                                    18
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="newadd2">
-                    <el-button type="success">审批通过</el-button>
-                    <el-button type="danger">驳回</el-button>
-                </div>
+
             </div>
+
 
             <!-- 弹框 -->
             <el-dialog title="新增材料" :visible.sync="dialogvisbel" width="50%">
@@ -184,30 +297,30 @@
             <!-- 调研 -->
             <el-dialog title="调研" :visible.sync="dialogvisbel4" width="50%">
                 <el-table :data="form3" style="width: 100%">
-                            <el-table-column prop="title" label="报告标题">
-                            </el-table-column>
-                            <el-table-column prop="summy" label="简介">
-                            </el-table-column>
-                            <el-table-column prop="res" label="结论">
-                            </el-table-column>
-                            <el-table-column prop="jianyi" label="建议">
-                            </el-table-column>
-                            <el-table-column prop="createby" label="创建人">
-                            </el-table-column>
-                            <el-table-column prop="state" label="状态">
-                            </el-table-column>
-                            <el-table-column prop="time" label="创建日期">
-                            </el-table-column>
-                            <el-table-column prop="file" label="文件">
-                            </el-table-column>
-                            <el-table-column prop="name" label="操作">
-                                <template slot-scope="scope">
-                                    <el-button @click="viewPdf" type="primary" size="mini">查看文件</el-button>
-                                    <!-- <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button> -->
-                                </template>
-                            </el-table-column>
+                    <el-table-column prop="title" label="报告标题">
+                    </el-table-column>
+                    <el-table-column prop="summy" label="简介">
+                    </el-table-column>
+                    <el-table-column prop="res" label="结论">
+                    </el-table-column>
+                    <el-table-column prop="jianyi" label="建议">
+                    </el-table-column>
+                    <el-table-column prop="createby" label="创建人">
+                    </el-table-column>
+                    <el-table-column prop="state" label="状态">
+                    </el-table-column>
+                    <el-table-column prop="time" label="创建日期">
+                    </el-table-column>
+                    <el-table-column prop="file" label="文件">
+                    </el-table-column>
+                    <el-table-column prop="name" label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="viewPdf" type="primary" size="mini">查看文件</el-button>
+                            <!-- <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button> -->
+                        </template>
+                    </el-table-column>
 
-                        </el-table>
+                </el-table>
                 <el-form ref="form" :model="form" label-width="100px" style="display: none;">
                     <div>
                         <el-form-item label="报告标题">
@@ -232,7 +345,7 @@
                             <el-input v-model="form3.time" placeholder="请输入创建日期" disabled="true"></el-input>
                         </el-form-item>
                         <el-form-item label="文件">
-                            <div >{{ form3.file }}</div>
+                            <div>{{ form3.file }}</div>
                         </el-form-item>
                     </div>
                     <el-form-item>
@@ -258,32 +371,32 @@ export default {
                 info2: 'ceshimkxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
             },//概要信息
             form2: {}, //文件弹框
-            cailiaoList:[
-                {name:'材料A',count:'100',unit:'个',price:'150',total:'15000'},
-                {name:'材料CA',count:'100',unit:'个',price:'150',total:'15000'},
-                {name:'材料ACC',count:'100',unit:'个',price:'150',total:'15000'},
+            cailiaoList: [
+                { name: '材料A', count: '100', unit: '个', price: '150', total: '15000' },
+                { name: '材料CA', count: '100', unit: '个', price: '150', total: '15000' },
+                { name: '材料ACC', count: '100', unit: '个', price: '150', total: '15000' },
             ],
-            form3:[
-            {
-                title:'报告xxx',
-                summy:'简介xxxxccc',
-                res:'bucuo',
-                jianyi:'都很好',
-                createby:'张三',
-                state:'已通过',
-                time:'2022-10-10 12-20',
-                file:'ceshi.pdf'
-            },
-            {
-                title:'报告x222x',
-                summy:'简介xaaaaccc',
-                res:'bucuo',
-                jianyi:'都很好',
-                createby:'里斯',
-                state:'已通过',
-                time:'2022-10-10 12-20',
-                file:'ceshi.pdf'
-            },
+            form3: [
+                {
+                    title: '报告xxx',
+                    summy: '简介xxxxccc',
+                    res: 'bucuo',
+                    jianyi: '都很好',
+                    createby: '张三',
+                    state: '已通过',
+                    time: '2022-10-10 12-20',
+                    file: 'ceshi.pdf'
+                },
+                {
+                    title: '报告x222x',
+                    summy: '简介xaaaaccc',
+                    res: 'bucuo',
+                    jianyi: '都很好',
+                    createby: '里斯',
+                    state: '已通过',
+                    time: '2022-10-10 12-20',
+                    file: 'ceshi.pdf'
+                },
             ],
             filesList: [
                 { id: 1, name: '鸡哥', file: '预告.pdf', time: '2002-10-10 12-22', dep: '开发部' },
@@ -321,11 +434,11 @@ export default {
                 { id: 2, name: '需要物资', role: '10000', dep: '无' },
 
             ],
-            phaseslist:[
-                {id:1,name:'验证阶段'},
-                {id:2,name:'小试阶段'},
-                {id:3,name:'中试阶段'},
-                {id:4,name:'产业化'},
+            phaseslist: [
+                { id: 1, name: '验证阶段' },
+                { id: 2, name: '小试阶段' },
+                { id: 3, name: '中试阶段' },
+                { id: 4, name: '产业化' },
             ],
 
         }
@@ -337,8 +450,9 @@ export default {
 .newadd {
     display: grid;
     grid-template-columns: 1fr auto;
-    border-bottom:  1px solid #c0bebe;
+    border-bottom: 1px solid #c0bebe;
 }
+
 .newadd2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -347,7 +461,7 @@ export default {
 
 .personlist {
     display: grid;
-    grid-template-columns:1fr 1fr 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;
     padding: 10px 0;
 }
 

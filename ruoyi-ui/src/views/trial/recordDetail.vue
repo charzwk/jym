@@ -2,7 +2,7 @@
     <div class="contain">
         <div class="box">
             <!-- 右侧 -->
-            <div class="left">
+            <div class="left" v-if="false">
                 <!-- 第一模块 -->
                 <div class="oneModel">
                     <div class="newadd">
@@ -54,8 +54,145 @@
 
 
             </div>
+            <div class="left">
+                <!-- 第一栏 -->
+                <div class="one">
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>00013</div>
+                            <div class="col9">编号</div>
+                        </div>
+                    </div>
+
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>已通过</div>
+                            <div class="col9">状态</div>
+                        </div>
+                    </div>
+
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>李xx</div>
+                            <div class="col9">申请人</div>
+                        </div>
+                    </div>
+
+                    <div class="oneitem">
+                        <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
+                        <div>
+                            <div>00013</div>
+                            <div class="col9">申请时间</div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- 标题 -->
+                <div class="dialoginfo" style="margin: 10px  0 ;">
+                    <div class="dtitle">试验记录信息
+                        <div class="close"><img src="@/imgs/close.png" alt=""></div>
+                    </div>
+                </div>
+
+                <!-- 基础信息 -->
+                <el-row :gutter="10">
+                    <el-col :span="12">
+                        <div>
+                            <div class="ddname">记录标题</div>
+                            <div class="bge">优化搜索引擎性能</div>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div>
+                                    <div class="ddname">记录人</div>
+                                    <div class="bge">李sir</div>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div>
+                                    <div class="ddname">负责人电话</div>
+                                    <div class="bge">192xxxxxxx</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+
+                    </el-col>
+
+                </el-row>
+                <!-- 第二列 -->
+                <el-row :gutter="10" style="margin: 20px 0 ;">
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div class="ddname">审批人</div>
+                                <div class="block">
+                                    <div class="bge">张xx</div>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div class="ddname">审批人电话</div>
+                                <div class="block">
+                                    <div class="bge">123xxxxxx</div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row :gutter="10">
+                            <el-col :span="12">
+                                <div class="ddname">项目类型</div>
+                                <div class="bge">测试类</div>
+                            </el-col>
+
+                            <el-col :span="12">
+                                <div class="ddname">是否专项</div>
+                                <div class="bge">是</div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </el-row>
+
+
+
+                <!-- 标题 -->
+                <div class="dialoginfo" style="margin: 10px  0 ;">
+                    <div class="dtitle">物料信息
+                        <div class="close"><img src="@/imgs/close.png" alt=""></div>
+                    </div>
+                </div>
+                <!-- 人员-->
+                <div class="pd10">
+                    <div class="ddname">附件信息</div>
+                    <div class="mark">记录人上传的附件信息</div>
+                    <el-table :data="tableData" style="width: 100%">
+                        <el-table-column type="index" label="序号">
+                        </el-table-column>
+                        <el-table-column prop="name" label="文件名称">
+                        </el-table-column>
+                        <el-table-column prop="role" label="上传人">
+                        </el-table-column>
+                        <el-table-column prop="department" label="上传时间">
+                        </el-table-column>
+                        <el-table-column prop="note" label="备注">
+                        </el-table-column>
+                    </el-table>
+                </div>
+
+
+
+
+
+
+
+            </div>
             <!-- 左侧 -->
-            <div class="right">
+            <div class="right" v-if="false">
                 <div class="processinfo">
                     <h2>流程信息</h2>
                     <div class="proitem" v-for="item in processInfo">
@@ -88,6 +225,67 @@
                     <el-button type="danger">驳回</el-button>
                 </div>
             </div>
+              <!-- 左侧 -->
+              <div class="right" style="background-color: #f9fafc;">
+
+<div class="process">
+    <div class="processitem">
+        <div class="mark">2023-9-27 09:22</div>
+        <div class="processinfo">
+            <div class="proheader">申请人</div>
+            <div class="probody">
+                <div class="proname"> <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/person.png" alt=""></span> sir发起新的</div>
+                <div class="pronnum">
+                    <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/repare.png" alt=""></span>
+
+                    18
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="processitem">
+        <div class="mark">2023-9-27 09:22</div>
+        <div class="processinfo">
+            <div class="proheader">审批和流程</div>
+            <div class="probody">
+                <div class="proname success"> <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/person.png" alt=""></span> sir发起新的</div>
+                <div class="pronnum">
+                    <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/repare.png" alt=""></span>
+                    18
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="processitem">
+        <div class="mark">2023-9-27 09:22</div>
+        <div class="processinfo">
+            <div class="proheader">抄送项目申请结果</div>
+            <div class="probody">
+                <div class="proname"> <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/person.png" alt=""></span> 抄送项目1名成员</div>
+                <div class="pronnum">
+                    <span style="width: 15px;height: 15px;"><img
+                            style="width: 15px;height: 15px;transform: translateY(2px);"
+                            src="@/imgs/repare.png" alt=""></span>
+                    18
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 
             <!-- 弹框 -->
             <el-dialog title="新增文件" :visible.sync="dialogvisbel" width="50%">

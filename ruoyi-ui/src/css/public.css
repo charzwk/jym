@@ -11,19 +11,23 @@
 
 /* 默认弹框样式 */
 .el-dialog__headerbtn {
-    display: none; /* 隐藏关闭按钮 */
+    display: none; 
   }
 
   .el-dialog {
-    background-color: #f9fafc; /* 设置你想要的背景色 */
+    background-color: #f9fafc; 
   }
 /* 弹框样式 */
 .mydialogInfo{
-    /* padding: 10px; */
+  
     position: relative;
 }
+/* 头部 搜索框 */
 .topinput{
-    display: grid;grid-template-columns: auto auto;align-items: center;
+    display: grid;grid-template-columns: auto auto ;align-items: center;
+}
+.topinput span{
+    margin-right: 3px;
 }
 .closedilog{
     width: 30px;
@@ -53,6 +57,7 @@
 .el-select {
     width: 100%;
 }
+
 .close{
     width: 25px;
     height: 25px;

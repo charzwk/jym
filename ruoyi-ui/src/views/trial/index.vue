@@ -227,8 +227,8 @@
 
                             <!-- 材料信息 -->
                             <div class="pd10">
-                                <div class="ddname">投入费用计划</div>
-                                <div class="mark">计划使用的投入费用和明细</div>
+                                <div class="ddname">添加物料</div>
+                                <div class="mark">所有物料及其信息</div>
                                 <div class="pbb">
                                     <el-button type="primary" @click="addRow"
                                         style="background-color: #fb9337; border-color: #fb9337;">+添加新行</el-button>
@@ -239,7 +239,7 @@
                                     </el-table-column>
 
                                     <!-- 姓名列，使用 el-select 进行选择 -->
-                                    <el-table-column prop="name" label="费用事项">
+                                    <el-table-column prop="name" label="物料名称">
                                         <template slot-scope="scope">
                                             <el-input v-model="scope.row.name" placeholder="请输入费用事项"></el-input>
                                         </template>

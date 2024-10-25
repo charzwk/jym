@@ -1,93 +1,14 @@
 <template>
     <div class="contain">
         <div class="box">
-            <!-- 右侧 -->
-            <div class="left" v-if="false">
-                <!-- 第一模块 -->
-                <div class="oneModel">
-                    <div class="newadd">
-                        <div> <h2>基本信息</h2></div>
-                        <div class="addbtn del" style="font-size: 20px;" @click="dialogvisbel4 = true" v-if="false">调研</div>
-                  
-                    </div>
-                  
-                 
-                    <div class="oneinfo">
-                        <div class="oneitem">申报书名称：申报书测试AAA</div>
-                        <div class="oneitem">任务编码：2365520001</div>
-                        <div class="oneitem">负责人电话：135xxxxxx</div>
-                        <!-- <div class="oneitem">状态：<span style="color: #5b9106;">申请中</span></div> -->
-                    </div>
-                    <div class="oneinfo">
-                        <div class="oneitem">参与人员电话：166xxxxxx</div>
-                        <div class="oneitem">经费预算：30000</div>
-                        <div class="oneitem">任务目标：xxxxcccc</div>
-                    </div>
-             
-                   
-                </div>
-           
-
-                <!-- 投入人员 -->
-                <div class=" twoModel">
-                    <div class="newadd">
-                        <div>
-                            <h2>投入人员</h2>
-                        </div>
-                        <div class="addbtn" @click="dialogvisbel2 = true"><el-button type="primary">新增</el-button></div>
-                    </div>
-                    <div class="personlist" v-for="item in projectPersons2">
-                        <div>姓名： {{ item.name }}</div>
-                        <div>角色： {{ item.role }}</div>
-                        <div>部门： {{ item.dep }}</div>
-                        <div>电话： {{ item.phone }}</div>
-                        <!-- <div>附件： {{ item.file }}</div> -->
-                        <!-- <div>备注： {{ item.remark }}</div> -->
-                        <div class="btns">
-                            <div class="preview"> <i class="fas fa-eye"></i>查看</div>
-                            <div class="preview"> <i class="fas fa-edit"></i>编辑</div>
-                            <div class="del"> <i class="fas fa-trash"></i>移除</div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <!-- 费用明细 -->
-                <div class=" twoModel">
-                    <div class="newadd">
-                        <div>
-                            <h2>费用明细</h2>
-                        </div>
-                        <div class="addbtn" @click="dialogvisbel3 = true"><el-button type="primary">新增</el-button></div>
-                    </div>
-                    <div class="personlist" v-for="item in projectPersons3">
-                        <div>材料费： {{ item.price1 }}</div>
-                        <div>人工费： {{ item.price2 }}</div>
-                        <div>设备费： {{ item.price3 }}</div>
-                        <div>总价： {{ item.price4 }}</div>
-                        <div class="btns">
-                            <div class="preview"> <i class="fas fa-eye"></i>查看</div>
-                            <div class="preview"> <i class="fas fa-edit"></i>编辑</div>
-                            <div class="del"> <i class="fas fa-trash"></i>移除</div>
-
-                        </div>
-                    </div>
-                </div>
-          
-
-             
-
-            
-            </div>
+        
             <div class="left">
                 <!-- 第一栏 -->
                 <div class="one">
                     <div class="oneitem">
                         <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
                         <div>
-                            <div>00013</div>
+                            <div>{{form.projectCode}}</div>
                             <div class="col9">编号</div>
                         </div>
                     </div>
@@ -103,16 +24,16 @@
                     <div class="oneitem">
                         <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
                         <div>
-                            <div>李xx</div>
-                            <div class="col9">申请人</div>
+                            <div>{{form.projectLeader}}</div>
+                            <div class="col9">创建人</div>
                         </div>
                     </div>
 
                     <div class="oneitem">
                         <div class="topimg"><img src="@/imgs/person.png" alt=""></div>
                         <div>
-                            <div>00013</div>
-                            <div class="col9">申请时间</div>
+                            <div>{{form.createTime}}</div>
+                            <div class="col9">创建时间</div>
                         </div>
                     </div>
 
@@ -130,7 +51,7 @@
                     <el-col :span="12">
                         <div>
                             <div class="ddname">项目名称</div>
-                            <div class="bge">优化搜索引擎性能</div>
+                            <div class="bge">{{form.projectName}}</div>
                         </div>
                     </el-col>
                     <el-col :span="12">
@@ -138,13 +59,13 @@
                             <el-col :span="12">
                                 <div>
                                     <div class="ddname">项目负责人</div>
-                                    <div class="bge">李sir</div>
+                                    <div class="bge">{{form.projectLeader}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="12">
                                 <div>
                                     <div class="ddname">所属部门</div>
-                                    <div class="bge">开发部</div>
+                                    <div class="bge">{{form.department}}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -159,13 +80,13 @@
                             <el-col :span="12">
                                 <div class="ddname">开始日期时间</div>
                                 <div class="block">
-                                    <div class="bge">2023-08-11</div>
+                                    <div class="bge">{{form.projectStartDate}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="12">
                                 <div class="ddname">结束日期时间</div>
                                 <div class="block">
-                                    <div class="bge">2023-08-21</div>
+                                    <div class="bge">{{ form.projectEndTime }}</div>
                                 </div>
                             </el-col>
                         </el-row>
@@ -174,12 +95,12 @@
                         <el-row :gutter="10">
                             <el-col :span="12">
                                 <div class="ddname">项目类型</div>
-                                <div class="bge">测试类</div>
+                                <div class="bge">{{form.projectType}}</div>
                             </el-col>
 
                             <el-col :span="12">
-                                <div class="ddname">是否专项</div>
-                                <div class="bge">是</div>
+                                <div class="ddname">项目金额</div>
+                                <div class="bge">{{ form.projectAmount }}</div>
                             </el-col>
                         </el-row>
                     </el-col>
@@ -187,7 +108,7 @@
 
 
                 <!-- 文本框 -->
-                <div class="pd10">
+                <div class="pd10" v-if="false">
                     <div class="ddname">简介</div>
                     <div class="mark">任务书简介</div>
                     <div class="artcel">
@@ -201,89 +122,35 @@
                     </div>
                 </div>
 
-                <div class="pd10">
-                    <div class="ddname">结论</div>
-                    <div class="mark">任务书结论</div>
-                    <div class="artcel">
-                        本项目的目的是开发一个高效的在线协作平台，<br>
-                        <br>
-                        旨在为团队提供一个统一的工具来管理和共享项目资源， <br>
-
-                        促进团队成员之间的实时沟通与合作。该平台将整合任务管理、文档编辑、讨论区等功能，<br>
-                        <br>
-                        以提升团队工作效率和项目管理水平，确保项目的顺利推进和高质量完成。
-                    </div>
-                </div>
-
-                <div class="pd10">
-                    <div class="ddname">建议</div>
-                    <div class="mark">任务书建议</div>
-                    <div class="artcel">
-                        本项目的目的是开发一个高效的在线协作平台，<br>
-                        <br>
-                        旨在为团队提供一个统一的工具来管理和共享项目资源， <br>
-
-                        促进团队成员之间的实时沟通与合作。该平台将整合任务管理、文档编辑、讨论区等功能，<br>
-                        <br>
-                        以提升团队工作效率和项目管理水平，确保项目的顺利推进和高质量完成。
-                    </div>
-                </div>
+           
 
                   <!-- 标题 -->
                   <div class="dialoginfo" style="margin: 10px  0 ;">
-                    <div class="dtitle">任务书关联信息
+                    <div class="dtitle">关联人员信息
                         <div class="close"><img src="@/imgs/close.png" alt=""></div>
                     </div>
                 </div>
-                <!-- 人员-->
+           
+
+                <!-- 设备-->
                 <div class="pd10">
-                    <div class="ddname">人员配置</div>
-                    <div class="mark">所有人员信息</div>
-                    <el-table :data="tableData" style="width: 100%">
+                    <div class="ddname">投入人员</div>
+                    <div class="mark">所有投入人员信息</div>
+                    <el-table :data="form.pmsProjectArchivesPersonnelList" style="width: 100%">
                         <el-table-column type="index" label="序号">
                         </el-table-column>
                         <el-table-column prop="name" label="姓名">
                         </el-table-column>
                         <el-table-column prop="role" label="角色">
                         </el-table-column>
-                        <el-table-column prop="department" label="部门">
+                        <el-table-column prop="joinDate" label="加入时间">
                         </el-table-column>
-                        <el-table-column prop="note" label="备注">
-                        </el-table-column>
-                    </el-table>
-                </div>
-
-                <!-- 设备-->
-                <div class="pd10">
-                    <div class="ddname">所需设备</div>
-                    <div class="mark">所有人员信息</div>
-                    <el-table :data="list" style="width: 100%">
-                        <el-table-column type="index" label="序号">
-                        </el-table-column>
-                        <el-table-column prop="equipmentName" label="设备名称">
-                        </el-table-column>
-                        <el-table-column prop="cost" label="费用">
-                        </el-table-column>
-                        <el-table-column prop="note" label="备注">
+                        <el-table-column prop="contactInformation" label="联系方式">
                         </el-table-column>
                     </el-table>
                 </div>
 
-                <!-- 费用 -->
-                <div class="pd10">
-                    <div class="ddname">费用投入</div>
-                    <div class="mark">所有人员信息</div>
-                    <el-table :data="list2" style="width: 100%">
-                        <el-table-column type="index" label="序号">
-                        </el-table-column>
-                        <el-table-column prop="equipmentName" label="设备名称">
-                        </el-table-column>
-                        <el-table-column prop="cost" label="费用">
-                        </el-table-column>
-                        <el-table-column prop="note" label="备注">
-                        </el-table-column>
-                    </el-table>
-                </div>
+           
 
 
 
@@ -369,8 +236,8 @@
                         </el-form-item>
                         <el-form-item label="附件上传">
                             <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove"
-                                multiple :limit="3" :on-exceed="handleExceed" :file-list="[]">
+                               
+                                multiple :limit="3"  :file-list="[]">
                              
                                 <el-button size="small" type="primary">点击上传</el-button>
                                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -379,7 +246,7 @@
                     </div>
                     <el-form-item>
                         <div class="form-buttons">
-                            <el-button type="primary" @click="onSubmit">保存</el-button>
+                            <!-- <el-button type="primary" @click="onSubmit">保存</el-button> -->
                             <el-button @click="dialogvisbel = false">取消</el-button>
                         </div>
                     </el-form-item>
@@ -414,7 +281,7 @@
                     </div>
                     <el-form-item>
                         <div class="form-buttons">
-                            <el-button type="primary" @click="onSubmit">保存</el-button>
+                            <!-- <el-button type="primary" @click="onSubmit">保存</el-button> -->
                             <el-button @click="dialogvisbel2 = false">取消</el-button>
                         </div>
                     </el-form-item>
@@ -440,7 +307,7 @@
                     </div>
                     <el-form-item>
                         <div class="form-buttons">
-                            <el-button type="primary" @click="onSubmit">保存</el-button>
+                            <!-- <el-button type="primary" @click="onSubmit">保存</el-button> -->
                             <el-button @click="dialogvisbel3 = false">取消</el-button>
                         </div>
                     </el-form-item>
@@ -457,11 +324,12 @@
 </template>
 
 <script>
+import {getProject_archives} from '@/api/project/project_archives.js'
 export default {
     data() {
         return {
             form: {
-                info2: 'ceshimkxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                
             },//概要信息
             form2: {}, //文件弹框
             form3:[
@@ -535,6 +403,21 @@ export default {
             ],
 
         }
+    },
+    created(){
+        var pkProjectArchives=this.$route.query.id;
+        var _this=this;
+        getProject_archives(pkProjectArchives).then(res=>{
+            console.log(res);    
+            _this.form=res.data;  
+        })
+
+        
+
+    },
+    methods:{
+
+
     }
 }
 </script>
