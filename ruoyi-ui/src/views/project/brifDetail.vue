@@ -41,7 +41,7 @@
                 </div>
                 <!-- 标题 -->
                 <div class="dialoginfo" style="margin: 10px  0 ;">
-                    <div class="dtitle">任务书信息
+                    <div class="dtitle">项目档案信息
                                 <div class="close"><img src="@/imgs/close.png" alt=""></div>
                             </div>
                 </div>

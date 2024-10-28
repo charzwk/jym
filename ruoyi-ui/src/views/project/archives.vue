@@ -3,9 +3,9 @@
         <!-- header -->
         <div class="header">
             <el-button style="color: white;background-color: #2468f2;"
-                @click="dialogvisbel = true; form = {}">新增</el-button>
+                @click="dialogvisbel = true; form = {};form.pmsProjectArchivesPersonnelList=[]">新增</el-button>
             <div class="serachModel">
-                <div class="topinput"> <span>搜索</span><el-input placeholder="请输入内容" suffix-icon="el-icon-search"
+                <div class="topinput"> <span></span><el-input placeholder="请输入搜索内容" suffix-icon="el-icon-search"
                         v-model="input1"></el-input>
                 </div>
 
@@ -47,7 +47,7 @@
             <el-form ref="form" :model="form" label-width="100px">
                 <!-- newlayout -->
                 <div class="mydialogInfo">
-                    <div class="closedilog" @click="dialogvisbel = false;">
+                    <div class="closedilog" @click="dialogvisbel = false; pmsProjectArchivesPersonnelList = []">
                         <img src="@/imgs/closedialog.png" alt="">
                     </div>
                     <div class="br">
@@ -75,7 +75,7 @@
                                             <div class="ddname">项目名称</div>
                                             <!--   -->
                                             <el-form-item label-width="0" prop="projectName">
-                                               <el-input v-model="form.projectName" placeholder="请选择项目"></el-input>
+                                                <el-input v-model="form.projectName" placeholder="请选择项目"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span='12'>
@@ -109,8 +109,8 @@
                                                 <div class="ddname">所属部门</div>
                                                 <div>
                                                     <el-select v-model="form.department" placeholder="请选择部门">
-                                                        <el-option v-for="item in deplist" :label="item.name"
-                                                            :value="item.name"></el-option>
+                                                        <el-option v-for="item in deplist" :label="item.dictLabel"
+                                                            :value="parseInt(item.dictValue)"></el-option>
                                                     </el-select>
                                                 </div>
                                             </div>
@@ -127,18 +127,18 @@
                                         <el-col :span="12">
                                             <div class="ddname">开始日期时间</div>
                                             <div class="block">
-                                                <el-date-picker format="yyyy-MM-DD hh:mm:ss"
-                                                    value-format="yyyy-MM-DD hh:mm:ss" v-model="form.projectStartDate"
-                                                    type="datetime" placeholder="选择开始日期时间">
+                                                <el-date-picker value-format="yyyy-MM-dd hh:mm"
+                                                    v-model="form.projectStartDate" type="datetime"
+                                                    placeholder="选择开始日期时间">
                                                 </el-date-picker>
                                             </div>
                                         </el-col>
                                         <el-col :span="12">
                                             <div class="ddname">结束日期时间</div>
                                             <div class="block">
-                                                <el-date-picker format="yyyy-MM-DD hh:mm:ss"
-                                                    value-format="yyyy-MM-DD hh:mm:ss" v-model="form.projectEndTime"
-                                                    type="datetime" placeholder="选择结束日期时间">
+                                                <el-date-picker value-format="yyyy-MM-dd hh:mm"
+                                                    v-model="form.projectEndTime" type="datetime"
+                                                    placeholder="选择结束日期时间">
                                                 </el-date-picker>
                                             </div>
                                         </el-col>
@@ -149,8 +149,8 @@
                                         <el-col :span="12">
                                             <div class="ddname">项目类型</div>
                                             <el-select v-model="form.projectType" placeholder="请选择项目类型">
-                                                <el-option v-for="item in typelist" :label="item.name"
-                                                    :value="item.id"></el-option>
+                                                <el-option v-for="item in typelist" :label="item.dictLabel"
+                                                    :value="parseInt(item.dictValue)"></el-option>
                                             </el-select>
                                         </el-col>
 
@@ -179,7 +179,8 @@
                                     <el-button type="primary" @click="addRow"
                                         style="background-color: #fb9337; border-color: #fb9337;">+添加新行</el-button>
                                 </div>
-                                <el-table :data="pmsProjectArchivesPersonnelList" border style="width: 100%">
+                                <!-- pmsProjectArchivesPersonnelList -->
+                                <el-table :data="form.pmsProjectArchivesPersonnelList" border style="width: 100%">
                                     <!-- 序号列 -->
                                     <el-table-column type="index" label="序号" width="50">
                                     </el-table-column>
@@ -188,8 +189,10 @@
                                     <el-table-column prop="name" label="姓名">
                                         <template slot-scope="scope">
                                             <el-select v-model="scope.row.name" placeholder="请选择姓名">
-                                                <el-option v-for="item in personlist" :label="item.name" :value="item.name"></el-option>
-                                              
+
+                                                <el-option v-for="item in personlist" :label="item.name"
+                                                    :value="item.name"></el-option>
+
                                             </el-select>
                                         </template>
                                     </el-table-column>
@@ -198,9 +201,8 @@
                                     <el-table-column prop="role" label="角色">
                                         <template slot-scope="scope">
                                             <el-select v-model="scope.row.role" placeholder="请选择角色">
-                                                <el-option label="管理员" value="1"></el-option>
-                                                <el-option label="普通用户" value="2"></el-option>
-                                                <el-option label="访客" value="3"></el-option>
+                                                <el-option :label="item.dictLabel" :value="parseInt(item.dictValue)"
+                                                    v-for="item in rolelist"></el-option>
                                             </el-select>
                                         </template>
                                     </el-table-column>
@@ -208,9 +210,8 @@
                                     <!--加入时间 -->
                                     <el-table-column prop="joinDate" label="加入时间">
                                         <template slot-scope="scope">
-                                            <el-date-picker format="yyyy-MM-DD hh:mm:ss"
-                                                value-format="yyyy-MM-DD hh:mm:ss" v-model="scope.row.joinDate"
-                                                type="datetime" placeholder="选择加入时间">
+                                            <el-date-picker format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm"
+                                                v-model="scope.row.joinDate" type="datetime" placeholder="选择加入时间">
                                             </el-date-picker>
                                         </template>
                                     </el-table-column>
@@ -226,7 +227,7 @@
                                     <!-- 操作列，用于删除选中行 -->
                                     <el-table-column label="操作" width="100">
                                         <template slot-scope="scope">
-                                            <el-button type="danger">删除</el-button>
+                                            <el-button type="danger" @click="delPerson(scope.row)">删除</el-button>
                                         </template>
                                     </el-table-column>
 
@@ -237,7 +238,8 @@
                             <div class="savebtn">
                                 <el-button style="color: white;background-color: #fb9337;"
                                     @click="saveinfo">保存</el-button>
-                                <el-button @click="dialogvisbel = false; form = {}">取消</el-button>
+                                <el-button
+                                    @click="dialogvisbel = false; form = {}; pmsProjectArchivesPersonnelList = []">取消</el-button>
                             </div>
 
 
@@ -260,9 +262,13 @@
 </template>
 
 <script>
-import { listUser } from "@/api/project/user.js"
-import { listProject_archives, pkProjectArchives, addProject_archives, updateProject_archives, delProject_archives, getProject_archives } from '@/api/project/project_archives.js'
-import { create } from 'sortablejs';
+import { listUser } from "@/api/project/user.js";
+import { formatDate } from "@/utils/index.js";
+
+import {
+    listProject_archives, pkProjectArchives, addProject_archives,
+    updateProject_archives, delProject_archives, getProject_archives
+} from '@/api/project/project_archives.js';
 export default {
     data() {
         return {
@@ -278,16 +284,17 @@ export default {
             input1: '',
             personlist: [],  //人员列表
             deplist: [
-                { name: '开发部' },
-                { name: '测试部' },
-                { name: '运营部' },
             ], //部门列表
             personSelect: '',
             personSelect2: '进行中',
             dateRange: '',
             dialogvisbel: false,
             tableData: [],
-            form: {},
+            form: {
+                projectStartDate: '',
+                projectEndTime: '',
+                pmsProjectArchivesPersonnelList: []
+            },
             lclist: [
                 { id: 1, name: '模板1' },
                 { id: 2, name: '模板A' },
@@ -307,24 +314,54 @@ export default {
                 { id: 2, name: '档案2' },
                 { id: 3, name: '档案3' },
             ],
-            pmsProjectArchivesPersonnelList: [],//投入人员列表
+            newPage: null,
+            rolelist: [],//角色
 
 
         }
     },
     created() {
+        var _this = this;
         this.getlist();
         this.getperson();
-       
-        
+        const dictType = "pls_role";
+        this.getDicts(dictType).then(res => {
+            _this.rolelist = res.data;
+
+        })
+        const dictType2 = "pls_protype";
+        this.getDicts(dictType2).then(res => {
+            _this.typelist = res.data;
+        })
+
+        const dictType3 = "pls_dep";
+        this.getDicts(dictType3).then(res => {
+            console.log('ziduan', res);
+            _this.deplist = res.data;
+
+        })
+
+
     },
     methods: {
+        // 移除添加的人员
+        delPerson(row) {
+            console.log(row);
+            var pkid = row.pkProjectPersonnel;
+            var index = this.form.pmsProjectArchivesPersonnelList.findIndex(item => item.pkProjectPersonnel == pkid);
+            this.form.pmsProjectArchivesPersonnelList = this.form.pmsProjectArchivesPersonnelList.splice(index, 1);
+            this.$message({
+                message: '删除成功',
+                type: 'success'
+            })
+
+        },
         // 获取人员
         getperson() {
-            var _this=this;
+            var _this = this;
             listUser().then(res => {
-                _this.personlist=res.rows;
-                console.log('person',this.personlist);
+                _this.personlist = res.rows;
+                console.log('person', this.personlist);
             })
         },
         serach() {
@@ -347,8 +384,9 @@ export default {
         },
         // 切换第几页
         handleCurrentChange(newPage) {
-            console.log('1111', newPage);
+
             var _this = this;
+            this.newPage = newPage;
             var query = {
                 pageSize: 10,
                 pageNum: newPage,
@@ -363,7 +401,11 @@ export default {
         // 获取列表
         getlist() {
             var _this = this;
-            listProject_archives().then(res => {
+            var query = {
+                pageSize: 10,
+                pageNum: this.newPage,
+            }
+            listProject_archives(query).then(res => {
                 console.log(res);
                 _this.list = res.rows;
                 _this.total = res.total;
@@ -392,19 +434,30 @@ export default {
         },
         // 添加新行
         addRow() {
-            this.pmsProjectArchivesPersonnelList.push({
-                name: '',
-                role: '',
-                join_date: '',
-                contact_information: ''
-            })
-            console.log('this.pmsProjectArchivesPersonnelList', this.pmsProjectArchivesPersonnelList);
+            console.log('111');
+
+            if (this.form.pmsProjectArchivesPersonnelList == undefined) {
+                this.form.pmsProjectArchivesPersonnelList = []
+            }else{
+                this.$set(this.form.pmsProjectArchivesPersonnelList,
+                this.form.pmsProjectArchivesPersonnelList.length,
+                {
+                    name: '',
+                    role: '',
+                    join_date: '',
+                    contact_information: ''
+                }
+            );
+            }
+          
+            console.log('222', this.form.pmsProjectArchivesPersonnelList);
+
         },
         // 表单提交
         saveinfo() {
             console.log('form', this.form);
             var data = this.form;
-            data.pmsProjectArchivesPersonnelList = this.pmsProjectArchivesPersonnelList;
+            data.pmsProjectArchivesPersonnelList = this.form.pmsProjectArchivesPersonnelList;
             var _this = this;
 
             if (data.pkProjectArchives > 0) {
@@ -454,18 +507,19 @@ export default {
 
         },
         // 编辑
-        edit(row) {
+        async edit(row) {
             var _this = this;
             _this.dialogvisbel = true;
             var id = row.pkProjectArchives;
-
             var pkProjectArchives = id;
 
-            getProject_archives(pkProjectArchives).then(res => {
-                console.log('edit', res);
+            await getProject_archives(pkProjectArchives).then(res => {
+                res.data.projectStartDate = formatDate(res.data.projectStartDate);
+                res.data.projectEndTime = formatDate(res.data.projectEndTime);
+
                 _this.form = res.data;
+                _this.form.pmsProjectArchivesPersonnelList = res.data.pmsProjectArchivesPersonnelList;
             })
-            _this.getlist();
         }
 
     }
