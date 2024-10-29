@@ -3,7 +3,7 @@
         <!-- header -->
         <div class="header">
             <el-button style="color: white;background-color: #2468f2;"
-                @click="dialogvisbel = true; form = {}; form.pmsProjectManHourList = []">新增</el-button>
+                @click="dialogvisbel = true; form = {}; form.pmsProjectCostStatisticsPersonnelList = []">新增</el-button>
             <div class="serachModel">
                 <!-- suffix-icon="el-icon-search" -->
                 <div class="topinput"> <span></span><el-input placeholder="请输入搜索内容" clearable
@@ -55,14 +55,14 @@
                     <div class="br">
                         <div class="dialogheader">
                             <div class="bgmask"></div>
-                            <div style="padding: 10px;">{{ form.id > 0 ? '修改工时' : '新增工时' }}</div>
+                            <div style="padding: 10px;">{{ form.id > 0 ? '修改费用统计信息' : '新增费用统计信息' }}</div>
                         </div>
                     </div>
 
                     <div class="infoDetail">
                         <div class="dialoginfo">
-                            <div class="dtitle">工时信息
-                                <div class="close" @click="form = {}"><img src="@/imgs/close.png" alt=""></div>
+                            <div class="dtitle">项目基本信息
+                                <div class="close" @click="form = {};"><img src="@/imgs/close.png" alt=""></div>
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                                             <div class="ddname">项目名称</div>
                                             <!--   -->
                                             <el-form-item label-width="0" prop="projectName">
-                                                <el-select v-model="form.pkProjectArchives" placeholder="请选择要录入的项目">
+                                                <el-select v-model="form.pkProjectArchives" placeholder="请选择要录入的项目" @change="getPersonInfo(form.pkProjectArchives)">
                                                     <el-option v-for="item in projectlist" :label="item.projectName"
                                                         :value="item.pkProjectArchives"></el-option>
                                                 </el-select>
@@ -110,23 +110,20 @@
 
                             </el-row>
                             <!-- 第二列 -->
-                            <el-row :gutter="10" style="margin: 20px 0 ;" v-if="false">
+                            <el-row :gutter="10" style="margin: 20px 0 ;" >
                                 <el-col :span="12">
                                     <el-row :gutter="10">
                                         <el-col :span="12">
-                                            <div class="ddname">开始日期时间</div>
+                                            <div class="ddname">项目奖金</div>
                                             <div class="block">
-                                                <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                                                    v-model="form.startTime" type="datetime" placeholder="选择开始日期时间">
-                                                </el-date-picker>
+                                                <el-input v-model="form.totalBonus" placeholder="请输入金额"></el-input>
                                             </div>
                                         </el-col>
                                         <el-col :span="12">
-                                            <div class="ddname">结束日期时间</div>
+                                            <!--  -->
+                                            <div class="ddname">总计(人员成本+奖金)</div>
                                             <div class="block">
-                                                <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                                                    v-model="form.endTime" type="datetime" placeholder="选择结束日期时间">
-                                                </el-date-picker>
+                                                <el-input v-model="form.totalCost" :disabled="true"></el-input>
                                             </div>
                                         </el-col>
                                     </el-row>
@@ -139,10 +136,10 @@
                                                 placeholder="请选择日期（一天工时未为8小时）"></el-input>
                                         </el-col> -->
 
-                                        <el-col :span="12">
+                                        <!-- <el-col :span="12">
                                             <div class="ddname">项目金额</div>
                                             <el-input v-model="projectInfo.projectAmount" :disabled="true"></el-input>
-                                        </el-col>
+                                        </el-col> -->
                                     </el-row>
                                 </el-col>
                             </el-row>
@@ -159,13 +156,13 @@
                             <div class="pd10">
                                 <div class="ddname">投入人员</div>
                                 <div class="mark">请给人员分配工时</div>
-                                <div class="pbb">
+                                <!-- <div class="pbb">
                                     <el-button type="primary" @click="addRow"
                                         style="background-color: #fb9337; border-color: #fb9337;">+添加新行</el-button>
                                     <el-button type="primary" @click="cacluteHour"
                                         style="background-color: green; ">计算工时</el-button>
-                                </div>
-                                <el-table :data="form.pmsProjectManHourList" border style="width: 100%">
+                                </div> -->
+                                <el-table :data="form.pmsProjectCostStatisticsPersonnelList" border style="width: 100%">
                                     <!-- 序号列 -->
                                     <el-table-column type="index" label="序号" width="50">
                                     </el-table-column>
@@ -173,30 +170,23 @@
                                     <!-- 姓名列，使用 el-select 进行选择 -->
                                     <el-table-column prop="name" label="姓名">
                                         <template slot-scope="scope">
-                                            <el-select v-model="scope.row.name" placeholder="请选择姓名" @change="getPK(scope.row, $event)">
-                                                <el-option v-for="item in properson" :label="item.name" 
-                                                    :value="item.name"></el-option>
-                                            </el-select>
+                                            <el-input v-model="scope.row.name" :disabled="true"></el-input>
                                         </template>
                                     </el-table-column>
 
                             
 
                                     <!-- 角色列，使用 el-select 进行选择 -->
-                                    <el-table-column prop="startTime" label="开始时间">
+                                    <el-table-column prop="manHour" label="工时">
                                         <template slot-scope="scope">
-                                            <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                                                v-model="scope.row.startTime" type="datetime" placeholder="选择开始日期时间">
-                                            </el-date-picker>
+                                            <el-input v-model="scope.row.manHour" :disabled="true"></el-input>
                                         </template>
                                     </el-table-column>
 
                                     <!--加入时间 -->
-                                    <el-table-column prop="endTime" label="加入时间">
+                                    <el-table-column prop="salary" label="基本工资">
                                         <template slot-scope="scope">
-                                            <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                                                v-model="scope.row.endTime" type="datetime" placeholder="选择开始日期时间">
-                                            </el-date-picker>
+                                            <el-input v-model="scope.row.insuranceExpenses" :disabled="true"></el-input>
                                         </template>
                                     </el-table-column>
 
@@ -208,12 +198,26 @@
                                         </template>
                                     </el-table-column>
 
+                                    <el-table-column prop="accumulatedBonus" label="累发金额">
+                                        <template slot-scope="scope">
+                                            <el-input v-model="scope.row.accumulatedBonus" :disabled="false"
+                                                placeholder="请输入累发金额"></el-input>
+                                        </template>
+                                    </el-table-column>
+
+                                    <el-table-column prop="sharingCost" label="分摊金额">
+                                        <template slot-scope="scope">
+                                            <el-input v-model="scope.row.sharingCost" :disabled="false"
+                                                placeholder="请输入分摊金额"></el-input>
+                                        </template>
+                                    </el-table-column>
+
                                     <!-- 操作列，用于删除选中行 -->
-                                    <el-table-column label="操作" width="100">
+                                    <!-- <el-table-column label="操作" width="100">
                                         <template slot-scope="scope">
                                             <el-button type="danger" @click="delPerson(scope.row)">删除</el-button>
                                         </template>
-                                    </el-table-column>
+                                    </el-table-column> -->
 
                                 </el-table>
 
@@ -229,7 +233,7 @@
                                 <el-button style="color: white;background-color: #fb9337;"
                                     @click="saveinfo">保存</el-button>
                                 <el-button
-                                    @click="dialogvisbel = false; form = {}; form.pmsProjectManHourList = []">取消</el-button>
+                                    @click="dialogvisbel = false; form = {}; form.pmsProjectCostStatisticsPersonnelList = []">取消</el-button>
                             </div>
 
 
@@ -260,6 +264,7 @@ import {
     listProject_archives, pkProjectArchives, addProject_archives,
     updateProject_archives, delProject_archives, getProject_archives
 } from '@/api/project/project_archives.js';
+import {getPersonInfo,listStatistics,getStatistics,addStatistics,updateStatistics,delStatistics} from '@/api/project/statistics.js';
 
 export default {
     name: 'hours',
@@ -289,7 +294,7 @@ export default {
             form: {
                 projectStartDate: '',
                 projectEndTime: '',
-                pmsProjectManHourList: []
+                pmsProjectCostStatisticsPersonnelList: []
             },
             lclist: [
             ],
@@ -351,26 +356,29 @@ export default {
 
         this.getProlist();
 
-
-
-
     },
     methods: {
+        // 获取项目下的人员信息
+        getPersonInfo(row){
+            var _this=this;
+            var pkProjectArchives=row;
+            console.log('getPersonInfo');
+            
+            getPersonInfo(pkProjectArchives).then(res=>{
+                _this.form.pmsProjectCostStatisticsPersonnelList=res.data;
+                console.log('form',_this.form);
+            })
+            console.log('getPersonInfo2');
+        },
         getPK(row,value){
-            // console.log(value);
-            // var index=this.properson.findIndex(x=>x.name==value);
-            // var id=this.properson[index].pkProjectPersonnel;
-
             const selectedItem = this.properson.find(item => item.name === value);
             if (selectedItem) {
-                // 将选中的 id 赋值给对应行数据的 id 属性
                 row.pkProjectPersonnel = selectedItem.pkProjectPersonnel;
             }
-        
         },
         // 计算工时
         cacluteHour() {
-            this.form.pmsProjectManHourList.forEach(item => {
+            this.form.pmsProjectArchivesPersonnelList.forEach(item => {
                 // 将 startTime 和 endTime 转换为 Date 对象
                 let startDate = new Date(item.startTime);
                 let endDate = new Date(item.endTime);
@@ -411,8 +419,8 @@ export default {
         delPerson(row) {
             console.log(row);
             var pkid = row.pkProjectPersonnel;
-            var index = this.form.pmsProjectArchivesPersonnelList.findIndex(item => item.pkProjectPersonnel == pkid);
-            this.form.pmsProjectArchivesPersonnelList = this.form.pmsProjectArchivesPersonnelList.splice(index, 1);
+            var index = this.form.pmsProjectCostStatisticsPersonnelList.findIndex(item => item.pkProjectPersonnel == pkid);
+            this.form.pmsProjectCostStatisticsPersonnelList = this.form.pmsProjectCostStatisticsPersonnelList.splice(index, 1);
             this.$message({
                 message: '删除成功',
                 type: 'success'
@@ -433,7 +441,7 @@ export default {
             var query = {
                 projectName: this.input1
             }
-            listHour(query).then(res => {
+            listStatistics(query).then(res => {
                 console.log('aaa', res);
                 _this.list = res.rows;
 
@@ -468,42 +476,31 @@ export default {
                 pageSize: 10,
                 pageNum: this.newPage,
             }
-            listHour(query).then(res => {
+            listStatistics(query).then(res => {
                 console.log('getlist', res);
                 _this.list = res.rows;
                 _this.total = res.total;
             })
         },
 
-        onSubmit() { },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
-            console.log(file);
-        },
-        handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        },
-        beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
-
+     
+    
         toDetail(row) {
             var id = row.id
             this.$router.push('/baseInfo/hourDetail?id=' + id);
         },
         // 添加新行
         addRow() {
-            if (this.form.pmsProjectManHourList == undefined) {
-                this.form.pmsProjectManHourList = []
+            if (this.form.pmsProjectCostStatisticsPersonnelList == undefined) {
+                this.form.pmsProjectCostStatisticsPersonnelList = []
             }
-            this.form.pmsProjectManHourList.push({
+            this.form.pmsProjectCostStatisticsPersonnelList.push({
                 name: '',
-                startTime: '',
-                endTime: '',
+                salary: '',
+                insuranceExpenses: '',
                 manHour: '',
-                pkProjectPersonnel:'',
+                accumulatedBonus:'',
+                sharingCost:''
             })
         },
         // 表单提交
@@ -514,10 +511,11 @@ export default {
             data.projectCode=this.projectInfo.projectCode;
             data.projectLeader=this.projectInfo.projectLeader;
             console.log('data', data);
+            return;
       
             var _this = this;
             if (data.id > 0) {
-                updateHour(data).then(res => {
+                updateStatistics(data).then(res => {
                     if (res.code == '200') {
                         _this.dialogvisbel = false;
                         this.$message({
@@ -530,7 +528,7 @@ export default {
                 })
 
             } else {
-                addHour(data).then(res => {
+                addStatistics(data).then(res => {
 
                     if (res.code == '200') {
                         _this.dialogvisbel = false;
@@ -550,7 +548,7 @@ export default {
             var _this = this;
             var id = row.id;
             if (confirm('确定删除吗')) {
-                delHour(id).then(res => {
+                delStatistics(id).then(res => {
                     if (res.code == '200') {
                         this.$message({
                             message: '删除成功',
@@ -570,7 +568,7 @@ export default {
             await getHour(id).then(res => {
                 console.log('edithour', res.data);
                 _this.form = res.data;
-                _this.form.pmsProjectArchivesPersonnelList = res.data.pmsProjectManHourList;
+                _this.form.pmsProjectArchivesPersonnelList = res.data.pmsProjectArchivesPersonnelList;
             })
         }
 
